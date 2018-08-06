@@ -1,16 +1,20 @@
 class GradientDescent():
+
     def hypothesis(self,th0,th1,x):
         return th0+th1*x
 
     def getConverge(self):
         th0=0
         th1=0
-        a= .17
+        a= .3
 
         while True:
+
+
             s= 0
             for i in range(self.m):
                 s+= self.hypothesis(th0,th1,self.x[i])-self.y[i]
+            print("Hypo: "+str(s/self.m))
             tmp0= th0- a/self.m*s
 
             s= 0
@@ -32,7 +36,9 @@ class GradientDescent():
         self.m=len(x)
         self.th0, self.th1= self.getConverge()
 
+
     def predict(self,x):
+        global iteration
         return self.hypothesis(self.th0,self.th1,x)
 
 
@@ -40,10 +46,8 @@ if __name__ == '__main__':
     myClassifier= GradientDescent()
 
     x=[1,2,3]
-    y=[2,-3,-7]
+    y=[8,13,18]
 
     myClassifier.fit(x,y)
     print(myClassifier.predict(4))
-
-
 
