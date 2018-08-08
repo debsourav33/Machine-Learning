@@ -1,6 +1,6 @@
 import math
 
-class GradientDescent():
+class LogisticRegression():
 
     def sigmoid(self,z):
         try:
@@ -92,7 +92,7 @@ def getRound(nums):
     return res
 
 if __name__ == '__main__':
-    myClassifier = GradientDescent()
+    myClassifier = LogisticRegression()
 
     x = [[1,2], [2,1], [1.995,1], [1,1.995], [.923,2], [1,3], [2,2], [0,1], [1.4,1.7]]
     y = [1, 1, 0, 0, 0, 1, 1, 0, 1]

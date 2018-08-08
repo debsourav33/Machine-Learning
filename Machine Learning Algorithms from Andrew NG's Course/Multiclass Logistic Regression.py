@@ -1,6 +1,6 @@
 import math
 
-class GradientDescent():
+class LogisticRegression():
 
     def __init__(self, yes_value):
         self.yes_value= yes_value
@@ -98,7 +98,7 @@ if __name__ == '__main__':
     myClassifiers = []
 
     for i in range(1,4):
-        myClassifiers.append(GradientDescent(i))
+        myClassifiers.append(LogisticRegression(i))
 
     for i in range (len(myClassifiers)):
 
