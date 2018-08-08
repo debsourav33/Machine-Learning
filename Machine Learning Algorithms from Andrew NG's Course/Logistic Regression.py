@@ -1,5 +1,7 @@
 import math
+import matplotlib.pyplot as plt
 
+theta=[]
 class LogisticRegression():
 
     def sigmoid(self,z):
@@ -57,7 +59,8 @@ class LogisticRegression():
 
             for i in range(0,self.n):
                 th[i]= tmp[i]
-
+        global theta
+        theta= th
         return th
 
 
@@ -91,6 +94,48 @@ def getRound(nums):
 
     return res
 
+def drawDecisionBoundary():
+    """Line Chart of Decision Boundary"""
+    global theta
+    th0= theta[0]
+    th1= theta[1]
+    th2= theta[2]
+
+    # making the function of format: y=mx+c
+    th0= th0/th2
+    th1= th1/th2
+
+    d_x=[-1,2.2]
+    d_y=[]
+    for x in d_x:
+        d_y.append(-1*(th0+th1*x))
+
+    plt.plot(d_x,d_y)
+
+def visualize():
+    drawDecisionBoundary()
+    """Scatter Plot Of Test Data"""
+    g_pltx = []
+    g_plty = []
+    b_pltx = []
+    b_plty = []
+
+    for i in range(len(test)):
+        if prediction[i] == 0:
+            g_pltx.append(test[i][1])
+            g_plty.append(test[i][2])
+
+        else:
+            b_pltx.append(test[i][1])
+            b_plty.append(test[i][2])
+
+    plt.title('Visualize, Adapt, Overcome')
+
+    plot2 = plt.plot(g_pltx, g_plty, 'ro')
+    plot3 = plt.plot(b_pltx, b_plty, 'bo')
+
+    plt.show()
+
 if __name__ == '__main__':
     myClassifier = LogisticRegression()
 
@@ -104,7 +149,7 @@ if __name__ == '__main__':
         x[i].insert(0, 1)
 
     myClassifier.fit(x, y)
-    test= [[1,2], [2,1], [1.995,1], [1,1.995], [.923,2], [1,3], [2,2], [0,1], [1.4,1.7]]
+    test= [[-1,3],[1,2], [2,1], [1.995,1], [1,1.995], [.923,2], [1,3], [2,2], [0,1], [1.4,1.7]]
     prediction = myClassifier.predict(test)
 
     print(prediction)
@@ -117,3 +162,4 @@ if __name__ == '__main__':
 
     print("Rounded", prediction)
 
+    visualize()

@@ -1,4 +1,5 @@
 import math
+import matplotlib.pyplot as plt
 
 class LogisticRegression():
 
@@ -77,12 +78,42 @@ class LogisticRegression():
 
         return prediction
 
+def visualize():
+    """Scatter Plot Of Test Data Of Different Class"""
+    r_pltx = []
+    r_plty = []
+    g_pltx = []
+    g_plty = []
+    b_pltx = []
+    b_plty = []
+
+    for i in range(len(test)):
+        if tmp_predict[i] == 1:
+            r_pltx.append(test[i][1])
+            r_plty.append(test[i][2])
+
+        elif tmp_predict[i] == 2:
+            g_pltx.append(test[i][1])
+            g_plty.append(test[i][2])
+
+        else:
+            b_pltx.append(test[i][1])
+            b_plty.append(test[i][2])
+
+    plt.title('Visualise, Adapt, Overcome')
+
+    plot1 = plt.plot(r_pltx, r_plty, 'ro')
+    plot2 = plt.plot(g_pltx, g_plty, 'go')
+    plot3 = plt.plot(b_pltx, b_plty, 'bo')
+
+    plt.show()
+
 if __name__ == '__main__':
 
     x= [[1,1],[1,2],[1,3],[2,1],[2,2],[5,2],[6,1],[6,2],[6,3],[7,1],[7,2],[3,7],[3,8],[4,6],[4,7],[4,8]]
     y= [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3]
 
-    test=[[4,3],[0,2],[9,0],[2,11],[13,12]]
+    test=[[1,11],[4,3],[0,2],[9,0],[2,11],[13,12]]
 
     tmp_predict= []
     score= []
@@ -111,5 +142,6 @@ if __name__ == '__main__':
                 score[k]= prediction[k]
                 tmp_predict[k]= i+1
 
+    print("\nPredicted Type(s):",tmp_predict)
 
-    print("Predicted Type(s):",tmp_predict)
+    visualize()
