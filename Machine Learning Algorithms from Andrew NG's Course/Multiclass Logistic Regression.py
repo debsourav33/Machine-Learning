@@ -2,6 +2,9 @@ import math
 
 class GradientDescent():
 
+    def __init__(self, yes_value):
+        self.yes_value= yes_value
+
     def sigmoid(self,z):
         try:
             power= math.pow(math.e,-1*z)
@@ -19,6 +22,7 @@ class GradientDescent():
         s=0
         for k in range(self.n):
             s+= th[k]*x[k]
+
         return self.sigmoid(s)
 
     def getConverge(self):
@@ -32,19 +36,17 @@ class GradientDescent():
 
         while True:
             #print(self.costFunction(th))
-
             for j in range(self.n):
                 s = 0
 
                 for i in range(self.m):
-                    s += (self.hypothesis(th,self.x[i])-self.y[i])* self.x[i][j]
+                    if(self.y[i]==self.yes_value):
+                        tmp_y=1
+                    else:
+                        tmp_y=0
 
+                    s += (self.hypothesis(th,self.x[i])-tmp_y)* self.x[i][j]
 
-                """Regularize theta in range 1 to n"""
-
-                # if(j==0):
-                #     tmp[j] = th[j] - a / self.m * s
-                # else:
                 tmp[j] = th[j] - a / self.m * s
 
             flag=1
@@ -60,60 +62,54 @@ class GradientDescent():
 
         return th
 
-
     def fit(self, x, y):
         self.x = x
         self.y = y
-        self.m = len(self.x)
-        self.n = len(self.x[0])
+
+        self.m = len(x)
+        self.n = len(x[0])
         self.th = self.getConverge()
 
     def predict(self, x):
         prediction = []
         for i in range(len(x)):
-            x[i].insert(0,1)
             prediction.append(self.hypothesis(self.th, x[i]))
-        print(self.th)
+
         return prediction
 
-def getRound(nums):
-    res=[]
-    for num in nums:
-        x= (int) (num)
-        rem= abs(num-x)
-        if rem>=.5:
-            try:
-                x+= abs(x)/x #decrement if num is -ve and increment if num is +ve
-            except ZeroDivisionError:
-                x=x
-
-        res.append(x)
-
-    return res
-
 if __name__ == '__main__':
-    myClassifier = GradientDescent()
 
-    x = [[1,2], [2,1], [1.995,1], [1,1.995], [.923,2], [1,3], [2,2], [0,1], [1.4,1.7]]
-    y = [1, 1, 0, 0, 0, 1, 1, 0, 1]
+    x= [[1,1],[1,2],[1,3],[2,1],[2,2],[5,2],[6,1],[6,2],[6,3],[7,1],[7,2],[3,7],[3,8],[4,6],[4,7],[4,8]]
+    y= [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3]
 
-    #x = [[1],[-2],[3],[-1],[-3],[0],[-.05],[-.6]]
-    #y = [1,0,1,0,0,1,0,0]
+    test=[[4,3],[0,2],[9,0],[2,11],[13,12]]
+
+    tmp_predict= []
+    score= []
+
+    for i in range(len(test)):
+        test[i].insert(0,1)
+        tmp_predict.append(0)
+        score.append(0)
 
     for i in range(len(x)):  # inserting 1 to make theta and x of equal dimension
         x[i].insert(0, 1)
 
-    myClassifier.fit(x, y)
-    test= [[1,2], [2,1], [1.995,1], [1,1.995], [.923,2], [1,3], [2,2], [0,1], [1.4,1.7]]
-    prediction = myClassifier.predict(test)
+    myClassifiers = []
 
-    print(prediction)
+    for i in range(1,4):
+        myClassifiers.append(GradientDescent(i))
 
-    for i in range(len(prediction)):
-        if prediction[i]>=.5:
-            prediction[i]=1
-        else:
-            prediction[i]=0
+    for i in range (len(myClassifiers)):
 
-    print("Rounded", prediction)
+        myClassifiers[i].fit(x, y)
+        prediction = myClassifiers[i].predict(test)
+        print("Probability of type",i+1,":",prediction)
 
+        for k in range(len(prediction)):
+            if(prediction[k]>score[k]):
+                score[k]= prediction[k]
+                tmp_predict[k]= i+1
+
+
+    print("Predicted Type(s):",tmp_predict)

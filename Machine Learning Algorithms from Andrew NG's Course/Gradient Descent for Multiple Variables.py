@@ -49,7 +49,7 @@ class GradientDescent():
         for i in range(len(x)):
             x[i].insert(0,1)
             prediction.append(self.hypothesis(self.th, x[i]))
-        print(self.th)
+        print("Theta:",self.th)
         return prediction
 
 def getRound(nums):
@@ -65,7 +65,7 @@ def getRound(nums):
 
 
 if __name__ == '__main__':
-    myClassifier = GradientDescent()
+    myLinearRegressor = GradientDescent()
 
     x = [[-2,-1],[1,1],[1,-2],[0,0],[3,0],[2,4]]
     y = [-3,-1,5,-1,5,-5]
@@ -73,10 +73,9 @@ if __name__ == '__main__':
     for i in range(len(x)): #inserting 1 to make theta and x of equal dimension
         x[i].insert(0,1)
 
-    myClassifier.fit(x, y)
-    test=[[4,1]]
-    prediction= myClassifier.predict(test)
+    myLinearRegressor.fit(x, y)
+    test=[[4,1],[9,3]]
+    prediction= myLinearRegressor.predict(test)
 
-    print(prediction)
-    print("Rounded:",int(getRound(prediction)[0]))
+    print("Prediction(s):",prediction)
 
